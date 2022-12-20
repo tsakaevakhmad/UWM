@@ -51,8 +51,8 @@ namespace UWM.DAL.Repositories
 
         public async Task Update(Item item)
         {
-            await _db.AddAsync(item);
-            _db.Entry(item).State = EntityState.Modified;
+            var result = _db.Entry<Item>(item);
+            result.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
     }

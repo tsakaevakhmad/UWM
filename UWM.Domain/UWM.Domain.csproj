@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\Category\" />
+    <Folder Include="DTO\SubCategory\" />
+    <Folder Include="DTO\Providers\" />
+  </ItemGroup>
+
 </Project>

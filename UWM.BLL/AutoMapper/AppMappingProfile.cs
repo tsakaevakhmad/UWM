@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using UWM.Domain.DTO;
+using UWM.Domain.DTO.Items;
 using UWM.Domain.Entity;
 
 namespace UWM.DAL.AutoMapper

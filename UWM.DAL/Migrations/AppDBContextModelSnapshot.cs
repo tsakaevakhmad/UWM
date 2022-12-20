@@ -220,7 +220,7 @@ namespace UWM.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Address", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Addresses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,7 +242,7 @@ namespace UWM.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("UWM.Domain.Entity.Categories", b =>
@@ -465,16 +465,16 @@ namespace UWM.DAL.Migrations
 
             modelBuilder.Entity("UWM.Domain.Entity.Warehouse", b =>
                 {
-                    b.HasOne("UWM.Domain.Entity.Address", "Address")
+                    b.HasOne("UWM.Domain.Entity.Addresses", "Addresses")
                         .WithOne("Warehouse")
                         .HasForeignKey("UWM.Domain.Entity.Warehouse", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Address", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Addresses", b =>
                 {
                     b.Navigation("Warehouse")
                         .IsRequired();

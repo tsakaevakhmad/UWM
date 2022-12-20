@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using UWM.BLL.Interfaces;
 using UWM.DAL.Interfaces.Items;
-using UWM.Domain.DTO;
+using UWM.Domain.DTO.Items;
 using UWM.Domain.Entity;
 
 namespace UWM.BLL.Services

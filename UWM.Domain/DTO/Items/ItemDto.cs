@@ -1,6 +1,4 @@
-﻿using UWM.Domain.Entity;
-
-namespace UWM.Domain.DTO
+﻿namespace UWM.Domain.DTO.Items
 {
     public class ItemDto
     {

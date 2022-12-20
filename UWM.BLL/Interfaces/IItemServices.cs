@@ -1,4 +1,4 @@
-﻿using UWM.Domain.DTO;
+﻿using UWM.Domain.DTO.Items;
 
 namespace UWM.BLL.Interfaces
 {
