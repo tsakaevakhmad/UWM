@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using UWM.DAL.AutoMapper;
 using UWM.DAL.Data;
+using UWM.DAL.Interfaces;
+using UWM.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-string connection = builder.Configuration["UWMContext"];
-builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(connection));
+builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["UWMContext"]));
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+
+builder.Services.AddTransient<IItemRepository, ItemRepository>();
 
 var app = builder.Build();
 
