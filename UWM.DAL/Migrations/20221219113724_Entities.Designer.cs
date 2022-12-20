@@ -247,7 +247,7 @@ namespace UWM.DAL.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Category", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Categories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +261,7 @@ namespace UWM.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("UWM.Domain.Entity.Item", b =>
@@ -456,13 +456,13 @@ namespace UWM.DAL.Migrations
 
             modelBuilder.Entity("UWM.Domain.Entity.SubCategory", b =>
                 {
-                    b.HasOne("UWM.Domain.Entity.Category", "Category")
+                    b.HasOne("UWM.Domain.Entity.Categories", "Categories")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("UWM.Domain.Entity.Warehouse", b =>
@@ -482,7 +482,7 @@ namespace UWM.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Category", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Categories", b =>
                 {
                     b.Navigation("SubCategories");
                 });

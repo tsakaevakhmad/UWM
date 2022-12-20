@@ -64,7 +64,7 @@ namespace UWM.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -230,7 +230,7 @@ namespace UWM.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_SubCategory_Category_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -376,7 +376,7 @@ namespace UWM.DAL.Migrations
                 name: "Warehous");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Address");

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UWM.DAL.AutoMapper;
 using UWM.DAL.Data;
-using UWM.DAL.Interfaces;
+using UWM.DAL.Interfaces.Items;
 using UWM.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);

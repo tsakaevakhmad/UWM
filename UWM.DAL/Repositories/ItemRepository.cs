@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UWM.DAL.Data;
-using UWM.DAL.Interfaces;
+using UWM.DAL.Interfaces.Items;
 using UWM.Domain.DomainModels.Filters;
 using UWM.Domain.Entity;
 
@@ -44,30 +44,10 @@ namespace UWM.DAL.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Item>> GetByFilter(ItemFilter filter)
+        public async Task<IEnumerable<Item>> GetBySubCategory(int subCategoryId)
         {
             return await _db.Item.Include(p => p.Provider).Include(w => w.Warehouse).Include(s => s.SubCategory)
-                .Where(f =>
-                (filter.Title == null ? true
-                : filter.Title.Length == 0 ? true
-                : filter.Title[0] == null ? true
-                : filter.Title.Contains(f.Title))
-                & (filter.Specifications == null ? true
-                : filter.Specifications.Length == 0 ? true
-                : filter.Specifications[0] == null ? true
-                : filter.Specifications.Contains(f.Specifications))
-                & (filter.Manufacturer == null ? true
-                : filter.Manufacturer.Length == 0 ? true
-                : filter.Manufacturer[0] == null ? true
-                : filter.Manufacturer.Contains(f.Manufacturer))
-                & (filter.ProviderName == null ? true
-                : filter.ProviderName.Length == 0 ? true
-                : filter.ProviderName[0] == null ? true
-                : filter.ProviderName.Contains(f.Provider.Name))
-                & (filter.WarehouseNumber == null ? true
-                : filter.WarehouseNumber.Length == 0 ? true
-                : filter.WarehouseNumber[0] == null ? true
-                : filter.WarehouseNumber.Contains(f.Warehouse.Number))).ToListAsync();
+                .Where(f => f.SubCategory.Id == subCategoryId).ToListAsync();
         }
 
         public async Task Update(Item item)

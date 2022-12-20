@@ -9,7 +9,7 @@ namespace UWM.BLL.Interfaces
         Task<int> Create(ItemDto item);
         Task<ItemDto> Get(int id);
         Task<IEnumerable<ItemDto>> GetAll();
-        Task<IEnumerable<ItemDto>> GetByFilter(ItemFilter filter);
+        Task<IEnumerable<ItemDto>> GetBySubCategory();
         Task Update(ItemDto item);
         Task Delete(int id);
     }
