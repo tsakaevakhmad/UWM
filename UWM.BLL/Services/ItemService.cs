@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using UWM.BLL.Interfaces;
 using UWM.DAL.Interfaces.Items;
-using UWM.Domain.DomainModels.Filters;
 using UWM.Domain.DTO;
 using UWM.Domain.Entity;
 
@@ -40,7 +39,7 @@ namespace UWM.BLL.Services
             return _mapper.Map<IEnumerable<ItemDto>>(resul);
         }
 
-        public async Task<IEnumerable<ItemDto>> GetBySubcategory(int subCategoryid)
+        public async Task<IEnumerable<ItemDto>> GetBySubCategory(int subCategoryid)
         {
             var result = await _repository.GetBySubCategory(subCategoryid);
             return _mapper.Map<IEnumerable<ItemDto>>(result);

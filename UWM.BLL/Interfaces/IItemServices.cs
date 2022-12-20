@@ -1,6 +1,4 @@
-﻿using UWM.Domain.DomainModels.Filters;
-using UWM.Domain.DTO;
-using UWM.Domain.Entity;
+﻿using UWM.Domain.DTO;
 
 namespace UWM.BLL.Interfaces
 {
@@ -9,7 +7,7 @@ namespace UWM.BLL.Interfaces
         Task<int> Create(ItemDto item);
         Task<ItemDto> Get(int id);
         Task<IEnumerable<ItemDto>> GetAll();
-        Task<IEnumerable<ItemDto>> GetBySubCategory();
+        Task<IEnumerable<ItemDto>> GetBySubCategory(int subCategoryid);
         Task Update(ItemDto item);
         Task Delete(int id);
     }

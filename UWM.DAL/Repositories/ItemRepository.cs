@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UWM.DAL.Data;
 using UWM.DAL.Interfaces.Items;
-using UWM.Domain.DomainModels.Filters;
 using UWM.Domain.Entity;
 
 namespace UWM.DAL.Repositories
