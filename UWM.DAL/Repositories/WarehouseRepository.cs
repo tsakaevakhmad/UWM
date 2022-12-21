@@ -23,7 +23,10 @@ namespace UWM.DAL.Repositories
 
         public async Task Delete(int id)
         {
-            _db.Address.Remove(await _db.Address.FindAsync(id));
+            var item = await _db.Address.FindAsync(id);
+            if (item == null)
+                return;
+            _db.Address.Remove(item);
         }
 
         public async Task<IEnumerable<Warehouse>> GetAll()

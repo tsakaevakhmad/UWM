@@ -1,6 +1,44 @@
-﻿namespace UWM.DAL.Repositories
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
+using UWM.DAL.Data;
+using UWM.DAL.Interfaces.Providers;
+using UWM.Domain.Entity;
+
+namespace UWM.DAL.Repositories
 {
-    public class ProviderRepository
+    public class ProviderRepository : IProviderRepository
     {
+        private readonly AppDBContext _db;
+
+        public ProviderRepository(AppDBContext db) 
+        {
+            _db = db;
+        }
+
+        public async Task<int> Create(Provider item)
+        {
+            await _db.Provider.AddAsync(item);
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var item = await _db.Provider.FindAsync(id);
+            if (item == null)
+                return;
+            _db.Provider.Remove(item);
+        }
+
+        public async Task<IEnumerable<Provider>> GetAll()
+        {
+            return await _db.Provider.ToListAsync();
+        }
+
+        public async Task Update(Provider item)
+        {
+            var result = _db.Entry<Provider>(item);
+            result.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+        }
     }
 }

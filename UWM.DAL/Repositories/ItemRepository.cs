@@ -13,6 +13,7 @@ namespace UWM.DAL.Repositories
         {
             _db = db;
         }
+
         public async Task<int> Create(Item item)
         {
             await _db.Item.AddAsync(item);
@@ -21,7 +22,10 @@ namespace UWM.DAL.Repositories
 
         public async Task Delete(int id)
         {
-            _db.Item.Remove(await _db.Item.FindAsync(id));
+            var item = await _db.Item.FindAsync(id);
+            if (item == null)
+                return;
+            _db.Item.Remove(item);
         }
 
         public async Task<Item> Get(int id)
