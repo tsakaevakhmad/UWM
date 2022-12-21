@@ -3,9 +3,9 @@ using UWM.Domain.Entity;
 
 namespace UWM.DAL.Interfaces.Warehouses
 {
-    public interface IWarehouseRepository : IRepositoryGetAll<Warehouse>,
-        IRepositoryUpdate<Warehouse>, IRepositoryDelete<Warehouse>
+    public interface IWarehouseRepository : IRepositoryGetAll<WarehouseDto>,
+        IRepositoryUpdate<WarehouseDto>, IRepositoryDelete<WarehouseDto>
     {
-        Task<int> Create(Address address, Warehouse warehose);
+        Task<int> Create(Address address, WarehouseDto warehose);
     }
 }

@@ -13,7 +13,7 @@
         public int WarehouseId { get; set; }
         public int SubCategoryId { get; set; }
         public Provider Provider { get; set; }
-        public Warehouse Warehouse { get; set; }
+        public WarehouseDto Warehouse { get; set; }
         public SubCategory SubCategory { get; set; }
     }
 }

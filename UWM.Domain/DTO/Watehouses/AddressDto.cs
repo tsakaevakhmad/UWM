@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UWM.Domain.DTO.Watehouses
+﻿namespace UWM.Domain.DTO.Watehouses
 {
-    internal class AddressDto
+    public class AddressDto
     {
         public int Id { get; set; }
         public string Country { get; set; }

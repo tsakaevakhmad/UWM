@@ -10,7 +10,7 @@ namespace UWM.DAL.Data
             : base(options) { }
         public DbSet<Provider> Provider { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<Warehouse> Warehous { get; set; }
+        public DbSet<WarehouseDto> Warehous { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<Item> Item { get; set; }

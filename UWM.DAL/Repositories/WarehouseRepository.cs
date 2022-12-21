@@ -13,7 +13,7 @@ namespace UWM.DAL.Repositories
         {
             _db = db;
         }
-        public async Task<int> Create(Address address, Warehouse warehouse)
+        public async Task<int> Create(Address address, WarehouseDto warehouse)
         {
             address.Warehouse = warehouse;
             await _db.Address.AddAsync(address);
@@ -29,14 +29,14 @@ namespace UWM.DAL.Repositories
             _db.Address.Remove(item);
         }
 
-        public async Task<IEnumerable<Warehouse>> GetAll()
+        public async Task<IEnumerable<WarehouseDto>> GetAll()
         {
             return await _db.Warehous.Include(a => a.Address).ToListAsync();
         }
 
-        public async Task Update(Warehouse item)
+        public async Task Update(WarehouseDto item)
         {
-            var result = _db.Entry<Warehouse>(item);
+            var result = _db.Entry<WarehouseDto>(item);
             result.State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }

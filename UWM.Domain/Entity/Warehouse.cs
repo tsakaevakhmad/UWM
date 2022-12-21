@@ -1,6 +1,6 @@
 ﻿namespace UWM.Domain.Entity
 {
-    public class Warehouse
+    public class WarehouseDto
     {
         public int Id { get; set; }
         public string Number { get; set; }

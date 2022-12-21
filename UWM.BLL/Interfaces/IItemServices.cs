@@ -2,7 +2,7 @@
 
 namespace UWM.BLL.Interfaces
 {
-    internal interface IItemServices
+    public interface IItemServices
     {
         Task<int> Create(ItemDto item);
         Task<ItemDto> Get(int id);

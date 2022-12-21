@@ -6,6 +6,6 @@
         public string Country { get; set; }
         public string City { get; set; }
         public string Building { get; set; }
-        public Warehouse Warehouse { get; set; }
+        public WarehouseDto Warehouse { get; set; }
     }
 }
