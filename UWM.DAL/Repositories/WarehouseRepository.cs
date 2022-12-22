@@ -20,7 +20,8 @@ namespace UWM.DAL.Repositories
             await _db.Warehous.AddAsync(warehouse);
             try
             {
-                return await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
+                return warehouse.Id;
             }
             catch
             {

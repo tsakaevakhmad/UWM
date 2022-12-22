@@ -6,7 +6,7 @@ using UWM.Domain.Entity;
 
 namespace UWM.BLL.Services
 {
-    public class ProviderServices : IProviderService
+    public class ProviderServices : IProviderServices
     {
         private readonly IProviderRepository _repository;
         private readonly IMapper _mapper;

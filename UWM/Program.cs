@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using UWM.BLL.Interfaces;
+using UWM.BLL.Services;
 using UWM.DAL.AutoMapper;
 using UWM.DAL.Data;
 using UWM.DAL.Interfaces.Addresses;
@@ -19,6 +21,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["UWMContext"]));
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+
+builder.Services.AddScoped<IItemServices, ItemServices>();
+builder.Services.AddScoped<IAddressServices, AddressServices>();
+builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+builder.Services.AddScoped<IProviderServices, ProviderServices>();
+builder.Services.AddScoped<ISubCategoryServices, SubCategoryServices>();
+builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
 
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();

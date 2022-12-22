@@ -6,6 +6,6 @@ namespace UWM.Domain.DTO.Category
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public SubCategoryDto? SubCategoryDto { get; set; } 
+        public List<SubCategoryDto>? SubCategoryDto { get; set; } 
     }
 }

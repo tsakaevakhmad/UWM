@@ -19,7 +19,8 @@ namespace UWM.DAL.Repositories
             await _db.AddAsync(item);
             try
             {
-                return await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
+                return item.Id;
             }
             catch
             {

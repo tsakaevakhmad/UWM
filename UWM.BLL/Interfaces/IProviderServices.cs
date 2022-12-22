@@ -4,7 +4,7 @@ using UWM.Domain.Entity;
 
 namespace UWM.BLL.Interfaces
 {
-    public interface IProviderService
+    public interface IProviderServices
     {
         Task<int> Create(ProviderDto provider);
         Task Delete(int id);
