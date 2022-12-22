@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using UWM.DAL.Data;
 using UWM.DAL.Interfaces.Items;
 using UWM.Domain.Entity;
@@ -17,7 +18,14 @@ namespace UWM.DAL.Repositories
         public async Task<int> Create(Item item)
         {
             await _db.Item.AddAsync(item);
-            return await _db.SaveChangesAsync(); 
+            try
+            {
+                return await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task Delete(int id)
@@ -57,7 +65,14 @@ namespace UWM.DAL.Repositories
         {
             var result = _db.Entry<Item>(item);
             result.State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
     }
 }

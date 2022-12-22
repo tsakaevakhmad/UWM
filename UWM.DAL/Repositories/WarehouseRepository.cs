@@ -13,32 +13,46 @@ namespace UWM.DAL.Repositories
         {
             _db = db;
         }
-        public async Task<int> Create(Address address, WarehouseDto warehouse)
+        public async Task<int> Create(Address address, Warehouse warehouse)
         {
             address.Warehouse = warehouse;
             await _db.Address.AddAsync(address);
             await _db.Warehous.AddAsync(warehouse);
-            return await _db.SaveChangesAsync();
+            try
+            {
+                return await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task Delete(int id)
         {
-            var item = await _db.Address.FindAsync(id);
+            var item = await _db.Warehous.FindAsync(id);
             if (item == null)
                 return;
-            _db.Address.Remove(item);
+            _db.Warehous.Remove(item);
         }
 
-        public async Task<IEnumerable<WarehouseDto>> GetAll()
+        public async Task<IEnumerable<Warehouse>> GetAll()
         {
             return await _db.Warehous.Include(a => a.Address).ToListAsync();
         }
 
-        public async Task Update(WarehouseDto item)
+        public async Task Update(Warehouse item)
         {
-            var result = _db.Entry<WarehouseDto>(item);
+            var result = _db.Entry<Warehouse>(item);
             result.State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
     }
 }

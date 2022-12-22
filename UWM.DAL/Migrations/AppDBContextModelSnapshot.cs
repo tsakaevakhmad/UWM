@@ -220,7 +220,7 @@ namespace UWM.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Addresses", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,12 +240,18 @@ namespace UWM.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.HasIndex("WarehouseId")
+                        .IsUnique();
+
+                    b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Categories", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -259,7 +265,7 @@ namespace UWM.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("UWM.Domain.Entity.Item", b =>
@@ -359,17 +365,11 @@ namespace UWM.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
 
                     b.ToTable("Warehous");
                 });
@@ -425,6 +425,17 @@ namespace UWM.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UWM.Domain.Entity.Address", b =>
+                {
+                    b.HasOne("UWM.Domain.Entity.Warehouse", "Warehouse")
+                        .WithOne("Address")
+                        .HasForeignKey("UWM.Domain.Entity.Address", "WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("UWM.Domain.Entity.Item", b =>
                 {
                     b.HasOne("UWM.Domain.Entity.Provider", "Provider")
@@ -454,33 +465,16 @@ namespace UWM.DAL.Migrations
 
             modelBuilder.Entity("UWM.Domain.Entity.SubCategory", b =>
                 {
-                    b.HasOne("UWM.Domain.Entity.Categories", "Categories")
+                    b.HasOne("UWM.Domain.Entity.Category", "Category")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Categories");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("UWM.Domain.Entity.Warehouse", b =>
-                {
-                    b.HasOne("UWM.Domain.Entity.Addresses", "Addresses")
-                        .WithOne("Warehouse")
-                        .HasForeignKey("UWM.Domain.Entity.Warehouse", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("UWM.Domain.Entity.Addresses", b =>
-                {
-                    b.Navigation("Warehouse")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("UWM.Domain.Entity.Categories", b =>
+            modelBuilder.Entity("UWM.Domain.Entity.Category", b =>
                 {
                     b.Navigation("SubCategories");
                 });
@@ -497,6 +491,9 @@ namespace UWM.DAL.Migrations
 
             modelBuilder.Entity("UWM.Domain.Entity.Warehouse", b =>
                 {
+                    b.Navigation("Address")
+                        .IsRequired();
+
                     b.Navigation("Items");
                 });
 #pragma warning restore 612, 618

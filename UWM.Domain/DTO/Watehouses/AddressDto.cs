@@ -6,5 +6,6 @@
         public string Country { get; set; }
         public string City { get; set; }
         public string Building { get; set; }
+        public int WarehouseId { get; set; }
     }
 }

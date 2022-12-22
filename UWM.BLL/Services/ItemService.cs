@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Net;
 using UWM.BLL.Interfaces;
 using UWM.DAL.Interfaces.Items;
 using UWM.Domain.DTO.Items;
@@ -18,8 +19,10 @@ namespace UWM.BLL.Services
         }
         public async Task<int> Create(ItemDto item)
         {
-            var newItem = _mapper.Map<Item>(item); 
-            return await _repository.Create(newItem);
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            return await _repository.Create(_mapper.Map<Item>(item));
         }
 
         public async Task Delete(int id)
@@ -29,26 +32,25 @@ namespace UWM.BLL.Services
 
         public async Task<ItemDto> Get(int id)
         {
-            var result = await _repository.Get(id);
-            return _mapper.Map<ItemDto>(result);
+            return _mapper.Map<ItemDto>(await _repository.Get(id));
         }
 
         public async Task<IEnumerable<ItemDto>> GetAll()
         {
-            var resul = await _repository.GetAll();
-            return _mapper.Map<IEnumerable<ItemDto>>(resul);
+            return _mapper.Map<IEnumerable<ItemDto>>(await _repository.GetAll());
         }
 
         public async Task<IEnumerable<ItemDto>> GetBySubCategory(int subCategoryid)
         {
-            var result = await _repository.GetBySubCategory(subCategoryid);
-            return _mapper.Map<IEnumerable<ItemDto>>(result);
+            return _mapper.Map<IEnumerable<ItemDto>>(await _repository.GetBySubCategory(subCategoryid));
         }
 
         public async Task Update(ItemDto item)
         {
-            var update = _mapper.Map<Item>(item);
-            await _repository.Update(update);
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            await _repository.Update(_mapper.Map<Item>(item));
         }
     }
 }

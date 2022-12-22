@@ -18,7 +18,14 @@ namespace UWM.DAL.Repositories
         public async Task<int> Create(Provider item)
         {
             await _db.Provider.AddAsync(item);
-            return await _db.SaveChangesAsync();
+            try
+            {
+                return await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task Delete(int id)
@@ -38,7 +45,14 @@ namespace UWM.DAL.Repositories
         {
             var result = _db.Entry<Provider>(item);
             result.State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
     }
 }
