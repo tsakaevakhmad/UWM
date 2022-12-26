@@ -29,13 +29,13 @@ namespace UWM.DAL.Repositories
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var item = _db.Warehous.Find(id);
+            var item = await _db.Warehous.FindAsync(id);
             if (item == null)
                 return;
             _db.Warehous.Remove(item);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Warehouse>> GetAll()
@@ -43,7 +43,7 @@ namespace UWM.DAL.Repositories
             return await _db.Warehous.Include(a => a.Address).ToListAsync();
         }
 
-        public async void Update(Warehouse item)
+        public async Task Update(Warehouse item)
         {
             var result = _db.Entry<Warehouse>(item);
             result.State = EntityState.Modified;

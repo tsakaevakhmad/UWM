@@ -4,6 +4,6 @@ namespace UWM.BLL.Interfaces
 {
     public interface IAddressServices
     {
-        void Update(AddressDto address);
+        Task Update(AddressDto address);
     }
 }

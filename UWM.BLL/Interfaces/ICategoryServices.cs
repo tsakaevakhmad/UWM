@@ -5,9 +5,9 @@ namespace UWM.BLL.Interfaces
     public interface ICategoryServices
     {
         Task<int> Create(CategoryDto category);
-        void Delete(int id);
+        Task Delete(int id);
         Task<CategoryDto> Get(int id);
         Task<IEnumerable<CategoryDto>> GetAll();
-        void Update(CategoryDto category);
+        Task Update(CategoryDto category);
     }
 }

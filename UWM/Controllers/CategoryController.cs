@@ -40,19 +40,19 @@ namespace UWM.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] CategoryDto category)
+        public async Task Put(int id, [FromBody] CategoryDto category)
         {
             if (id == category.Id)
             {
-                _category.Update(category);
+                await _category.Update(category);
             }
         }
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _category.Delete(id);
+            await _category.Delete(id);
         }
     }
 }

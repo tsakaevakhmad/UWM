@@ -2,6 +2,6 @@
 {
     public interface IRepositoryUpdate<Entity> where Entity : class
     {
-        void Update(Entity item);
+        Task Update(Entity item);
     }
 }

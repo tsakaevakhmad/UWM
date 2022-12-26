@@ -7,8 +7,8 @@ namespace UWM.BLL.Interfaces
     public interface IProviderServices
     {
         Task<int> Create(ProviderDto provider);
-        void Delete(int id);
+        Task Delete(int id);
         Task<IEnumerable<ProviderDto>> GetAll();
-        void Update(ProviderDto provider);
+        Task Update(ProviderDto provider);
     }
 }

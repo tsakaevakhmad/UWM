@@ -19,15 +19,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["dbString"]));
+
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
-builder.Services.AddScoped<IItemServices, ItemServices>();
-builder.Services.AddScoped<IAddressServices, AddressServices>();
-builder.Services.AddScoped<ICategoryServices, CategoryServices>();
-builder.Services.AddScoped<IProviderServices, ProviderServices>();
-builder.Services.AddScoped<ISubCategoryServices, SubCategoryServices>();
-builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
+builder.Services.AddTransient<IItemServices, ItemServices>();
+builder.Services.AddTransient<IAddressServices, AddressServices>();
+builder.Services.AddTransient<ICategoryServices, CategoryServices>();
+builder.Services.AddTransient<IProviderServices, ProviderServices>();
+builder.Services.AddTransient<ISubCategoryServices, SubCategoryServices>();
+builder.Services.AddTransient<IWarehouseServices, WarehouseServices>();
 
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
