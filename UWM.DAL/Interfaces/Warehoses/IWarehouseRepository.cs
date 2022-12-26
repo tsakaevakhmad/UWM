@@ -6,6 +6,6 @@ namespace UWM.DAL.Interfaces.Warehouses
     public interface IWarehouseRepository : IRepositoryGetAll<Warehouse>,
         IRepositoryUpdate<Warehouse>, IRepositoryDelete<Warehouse>
     {
-        Task<int> Create(Address address, Warehouse warehose);
+        Task<int> Create(Warehouse warehose);
     }
 }

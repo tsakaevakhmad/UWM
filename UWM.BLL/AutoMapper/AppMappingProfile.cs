@@ -12,22 +12,21 @@ namespace UWM.DAL.AutoMapper
     {
         public AppMappingProfile()
         {
-            CreateMap<ItemDto, Item>().ReverseMap()
-                .ForMember(w => w.WarehouseNumber, wn => wn.MapFrom(f => f.Warehouse.Number))
-                .ForMember(p => p.ProviderName, pn => pn.MapFrom(f => f.Provider.Name))
-                .ForMember(c => c.SubCategoryName, cn => cn.MapFrom(f => f.SubCategory.Name));
+            CreateMap<ItemDto, Item>()
+                .ForMember(w => w.Warehouse.Number, wn => wn.MapFrom(f => f.WarehouseNumber))
+                .ForMember(p => p.Provider.Name, pn => pn.MapFrom(f => f.ProviderName))
+                .ForMember(c => c.SubCategory.Name, cn => cn.MapFrom(f => f.SubCategoryName))
+                .ReverseMap();
             
             CreateMap<AddressDto, Address>().ReverseMap();
 
-            CreateMap<WarehoseDto, Warehouse>().ReverseMap()
-                .ForPath(w => w.AddressDto.WarehouseId, a => a.MapFrom(aw => aw.Address.WarehouseId))
-                .ForPath(w => w.AddressDto.Id, a => a.MapFrom(aw => aw.Address.Id))
-                .ForPath(w => w.AddressDto.Building, a => a.MapFrom(aw => aw.Address.Building))
-                .ForPath(w => w.AddressDto.City, a => a.MapFrom(aw => aw.Address.City))
-                .ForPath(w => w.AddressDto.Country, a => a.MapFrom(aw => aw.Address.Country));
+            CreateMap<WarehouseDto, Warehouse>()
+                .ForMember(w => w.Address, a => a.MapFrom(a => a.AddressDto))
+                .ReverseMap();
 
-            CreateMap<CategoryDto, Category>().ReverseMap()
-                .ForPath(c => c.SubCategoryDto, sc => sc.MapFrom(s => s.SubCategories));
+            CreateMap<CategoryDto, Category>()
+                .ForPath(c => c.SubCategories, sc => sc.MapFrom(s => s.SubCategoryDto))
+                .ReverseMap();
             
             CreateMap<SubCategoryDto, SubCategory>().ReverseMap();
             

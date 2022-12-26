@@ -13,10 +13,10 @@ namespace UWM.DAL.Repositories
         {
             _db = db;
         }
-        public async Task<int> Create(Address address, Warehouse warehouse)
+        public async Task<int> Create(Warehouse warehouse)
         {
-            address.Warehouse = warehouse;
-            await _db.Address.AddAsync(address);
+            warehouse.Address = warehouse.Address;
+            await _db.Address.AddAsync(warehouse.Address);
             await _db.Warehous.AddAsync(warehouse);
             try
             {

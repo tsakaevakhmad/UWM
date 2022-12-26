@@ -17,15 +17,12 @@ namespace UWM.BLL.Services
             _mapper = mapper; 
         }
 
-        public async Task<int> Create(AddressDto address, Warehouse warehouse)
-        {
-            if (address == null)
-                throw new ArgumentNullException(nameof(address));
-            
+        public async Task<int> Create(WarehouseDto warehouse)
+        {          
             if (warehouse == null)
                 throw new ArgumentNullException(nameof(warehouse));
 
-            return await _repository.Create(_mapper.Map<Address>(address), _mapper.Map<Warehouse>(warehouse));
+            return await _repository.Create(_mapper.Map<Warehouse>(warehouse));
         }
 
         public async Task Delete(int Id)
@@ -33,17 +30,17 @@ namespace UWM.BLL.Services
             await _repository.Delete(Id);
         }
 
-        public async Task<IEnumerable<Warehouse>> GetAll()
+        public async Task<IEnumerable<WarehouseDto>> GetAll()
         {
-            return _mapper.Map<IEnumerable<Warehouse>>(await _repository.GetAll());
+            return _mapper.Map<IEnumerable<WarehouseDto>>(await _repository.GetAll());
         }
 
-        public async Task Update(Warehouse warehouse)
+        public async Task Update(WarehouseDto warehouse)
         {
             if (warehouse == null)
                 throw new ArgumentNullException(nameof(warehouse));
-            
-            await _repository.Update(warehouse);
+
+            await _repository.Update(_mapper.Map<Warehouse>(warehouse));
         }
     }
 }
