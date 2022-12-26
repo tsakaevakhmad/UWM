@@ -8,8 +8,8 @@ namespace UWM.BLL.Interfaces
     public interface ISubCategoryServices
     {
         Task<int> Create(SubCategoryDto subCategory);
-        Task Delete(int id);
+        void Delete(int id);
         Task<IEnumerable<SubCategoryDto>> GetAll();
-        Task Update(SubCategoryDto subCategory);
+        void Update(SubCategoryDto subCategory);
     }
 }

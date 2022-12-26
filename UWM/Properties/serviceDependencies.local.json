@@ -2,9 +2,8 @@
   "dependencies": {
     "mssql1": {
       "secretStore": "LocalSecretsFile",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/uwmdbserver/databases/UWM_db",
-      "type": "mssql.azure",
-      "connectionId": "UWMContext",
+      "type": "mssql.local",
+      "connectionId": "dbString",
       "dynamicId": null
     }
   }

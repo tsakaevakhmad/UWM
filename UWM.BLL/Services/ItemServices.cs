@@ -7,12 +7,12 @@ using UWM.Domain.Entity;
 
 namespace UWM.BLL.Services
 {
-    public class ItemService : IItemServices
+    public class ItemServices : IItemServices
     {
         private readonly IItemRepository _repository;
         private readonly IMapper _mapper;
 
-        public ItemService(IItemRepository repositoy, IMapper mapper) 
+        public ItemServices(IItemRepository repositoy, IMapper mapper) 
         {
             _repository = repositoy;
             _mapper = mapper;
@@ -25,9 +25,9 @@ namespace UWM.BLL.Services
             return await _repository.Create(_mapper.Map<Item>(item));
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            await _repository.Delete(id);
+            _repository.Delete(id);
         }
 
         public async Task<ItemDto> Get(int id)
@@ -45,12 +45,12 @@ namespace UWM.BLL.Services
             return _mapper.Map<IEnumerable<ItemDto>>(await _repository.GetBySubCategory(subCategoryid));
         }
 
-        public async Task Update(ItemDto item)
+        public void Update(ItemDto item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            await _repository.Update(_mapper.Map<Item>(item));
+            _repository.Update(_mapper.Map<Item>(item));
         }
     }
 }

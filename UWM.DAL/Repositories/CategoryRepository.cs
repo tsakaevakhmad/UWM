@@ -28,12 +28,13 @@ namespace UWM.DAL.Repositories
             }
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            var item = await _db.Category.FindAsync(id);
+            var item = _db.Category.Find(id);
             if (item == null)
                 return;
             _db.Category.Remove(item);
+            _db.SaveChanges();
         }
 
         public async Task<Category> Get(int id)
@@ -46,7 +47,7 @@ namespace UWM.DAL.Repositories
             return await _db.Category.Include(s => s.SubCategories).ToListAsync();
         }
 
-        public async Task Update(Category item)
+        public async void Update(Category item)
         {
             var result = _db.Entry<Category>(item);
             result.State = EntityState.Modified;

@@ -14,7 +14,7 @@ namespace UWM.DAL.Repositories
             _db = db;
         }
 
-        public async Task Update(Address item)
+        public async void Update(Address item)
         {
             var result = _db.Entry<Address>(item);
             result.State = EntityState.Modified;

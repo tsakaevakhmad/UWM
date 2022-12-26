@@ -7,8 +7,8 @@ namespace UWM.BLL.Interfaces
     public interface IWarehouseServices
     {
         Task<int> Create(AddressDto address, Warehouse warehouse);
-        Task Delete(int id);
+        void Delete(int id);
         Task<IEnumerable<Warehouse>> GetAll();
-        Task Update(Warehouse warehouse);
+        void Update(Warehouse warehouse);
     }
 }

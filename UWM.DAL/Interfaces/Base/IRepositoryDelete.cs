@@ -2,6 +2,6 @@
 {
     public interface IRepositoryDelete<Entity> where Entity : class
     {
-        Task Delete(int id);
+        void Delete(int id);
     }
 }

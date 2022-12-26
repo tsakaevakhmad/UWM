@@ -25,9 +25,9 @@ namespace UWM.BLL.Services
             return await _repository.Create(_mapper.Map<SubCategory>(subCategory));
         }
 
-        public async Task Delete(int id)
+        public void Delete(int id)
         {
-            await _repository.Delete(id);
+            _repository.Delete(id);
         }
 
         public async Task<IEnumerable<SubCategoryDto>> GetAll()
@@ -35,12 +35,12 @@ namespace UWM.BLL.Services
             return _mapper.Map<IEnumerable<SubCategoryDto>>(await _repository.GetAll());
         }
 
-        public async Task Update(SubCategoryDto subCategory)
+        public void Update(SubCategoryDto subCategory)
         {
             if (subCategory == null)
                 throw new ArgumentNullException(nameof(subCategory));
 
-            await _repository.Update(_mapper.Map<SubCategory>(subCategory));
+            _repository.Update(_mapper.Map<SubCategory>(subCategory));
         }
     }
 }

@@ -16,12 +16,12 @@ namespace UWM.BLL.Services
             _mapper = mapper;
             _repository = repository;
         }
-        public async Task Update(AddressDto address)
+        public void Update(AddressDto address)
         {
             if (address == null)
                 throw new ArgumentNullException(nameof(address));
 
-            await _repository.Update(_mapper.Map<Address>(address));
+            _repository.Update(_mapper.Map<Address>(address));
         }
     }
 }
