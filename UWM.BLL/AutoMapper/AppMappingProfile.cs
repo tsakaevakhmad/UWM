@@ -12,11 +12,11 @@ namespace UWM.DAL.AutoMapper
     {
         public AppMappingProfile()
         {
-            CreateMap<ItemDto, Item>()
-                .ForMember(w => w.Warehouse.Number, wn => wn.MapFrom(f => f.WarehouseNumber))
-                .ForMember(p => p.Provider.Name, pn => pn.MapFrom(f => f.ProviderName))
-                .ForMember(c => c.SubCategory.Name, cn => cn.MapFrom(f => f.SubCategoryName))
-                .ReverseMap();
+            CreateMap<ItemDto, Item>().ReverseMap()
+                .ForMember(w => w.WarehouseNumber, wn => wn.MapFrom(f => f.Warehouse.Number))
+                .ForMember(p => p.ProviderName, pn => pn.MapFrom(f => f.Provider.Name))
+                .ForMember(c => c.SubCategoryName, cn => cn.MapFrom(f => f.SubCategory.Name));
+                
             
             CreateMap<AddressDto, Address>().ReverseMap();
 
