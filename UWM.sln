@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWM.DAL", "UWM.DAL\UWM.DAL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWM.BLL", "UWM.BLL\UWM.BLL.csproj", "{1A77FD4A-685F-4EAF-A206-5233B1CFBD7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWM.NUnit.Tests", "UWM.NUnit.Tests\UWM.NUnit.Tests.csproj", "{34052E44-9115-49F8-A813-5BDA9EA88DA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1A77FD4A-685F-4EAF-A206-5233B1CFBD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A77FD4A-685F-4EAF-A206-5233B1CFBD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A77FD4A-685F-4EAF-A206-5233B1CFBD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34052E44-9115-49F8-A813-5BDA9EA88DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34052E44-9115-49F8-A813-5BDA9EA88DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34052E44-9115-49F8-A813-5BDA9EA88DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34052E44-9115-49F8-A813-5BDA9EA88DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

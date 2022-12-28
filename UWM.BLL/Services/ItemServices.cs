@@ -35,14 +35,14 @@ namespace UWM.BLL.Services
             return _mapper.Map<ItemDto>(await _repository.Get(id));
         }
 
-        public async Task<IEnumerable<ItemDto>> GetAll()
+        public async Task<IEnumerable<ItemListDto>> GetAll()
         {
-            return _mapper.Map<IEnumerable<ItemDto>>(await _repository.GetAll());
+            return _mapper.Map<IEnumerable<ItemListDto>>(await _repository.GetAll());
         }
 
-        public async Task<IEnumerable<ItemDto>> GetBySubCategory(int subCategoryid)
+        public async Task<IEnumerable<ItemListDto>> GetBySubCategory(int subCategoryid)
         {
-            return _mapper.Map<IEnumerable<ItemDto>>(await _repository.GetBySubCategory(subCategoryid));
+            return _mapper.Map<IEnumerable<ItemListDto>>(await _repository.GetBySubCategory(subCategoryid));
         }
 
         public async Task Update(ItemDto item)

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Items;
-using UWM.Domain.DTO.Providers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +19,9 @@ namespace UWM.Controllers
 
         // GET: api/<ItemController>
         [HttpGet]
-        public async Task<IEnumerable<ItemDto>> Get()
+        public async Task<IEnumerable<ItemListDto>> Get()
         {
-            return await _item.GetAll();
+            return await _item.GetAll(); 
         }
 
         // GET api/<ItemController>/5
@@ -34,7 +33,7 @@ namespace UWM.Controllers
 
         // GET api/<ItemController>/5
         [HttpGet("GetBySubCategory/{subCategoryId}")]
-        public async Task<IEnumerable<ItemDto>> GetBySubCategory(int subCategoryId)
+        public async Task<IEnumerable<ItemListDto>> GetBySubCategory(int subCategoryId)
         {
             return await _item.GetBySubCategory(subCategoryId);
         }

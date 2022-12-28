@@ -16,8 +16,10 @@ namespace UWM.DAL.AutoMapper
                 .ForMember(w => w.WarehouseNumber, wn => wn.MapFrom(f => f.Warehouse.Number))
                 .ForMember(p => p.ProviderName, pn => pn.MapFrom(f => f.Provider.Name))
                 .ForMember(c => c.SubCategoryName, cn => cn.MapFrom(f => f.SubCategory.Name));
-                
-            
+
+            CreateMap<Item, ItemListDto>()
+                .ForMember(p => p.ProviderName, pn => pn.MapFrom(f => f.Provider.Name));
+
             CreateMap<AddressDto, Address>().ReverseMap();
 
             CreateMap<WarehouseDto, Warehouse>()

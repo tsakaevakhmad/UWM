@@ -52,14 +52,14 @@ namespace UWM.DAL.Repositories
         {
             return await _db.Item
                 .Include(p => p.Provider)
-                .Include(w => w.Warehouse)
-                .Include(s => s.SubCategory)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Item>> GetBySubCategory(int subCategoryId)
         {
-            return await _db.Item.Include(p => p.Provider).Include(w => w.Warehouse).Include(s => s.SubCategory)
+            return await _db.Item
+                .Include(p => p.Provider)
+                .Include(s => s.SubCategory)
                 .Where(f => f.SubCategory.Id == subCategoryId).ToListAsync();
         }
 
