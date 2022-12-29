@@ -32,7 +32,7 @@ namespace UWM.DAL.Repositories
         {
             var item = await _db.Category.FindAsync(id);
             if (item == null)
-                return;
+                throw new Exception();
             _db.Category.Remove(item);
             await _db.SaveChangesAsync();
         }

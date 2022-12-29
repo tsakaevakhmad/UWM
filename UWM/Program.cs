@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["dbString"]));
+builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["uwm-main-db"]));
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
