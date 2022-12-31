@@ -26,9 +26,9 @@ namespace UWM.Controllers
 
         // POST api/<SubCategoryController>
         [HttpPost]
-        public async Task Post([FromBody] SubCategoryDto subCategory)
+        public async Task<int> Post([FromBody] SubCategoryDto subCategory)
         {
-            await _subCategory.Create(subCategory);
+            return await _subCategory.Create(subCategory);
         }
 
         // PUT api/<SubCategoryController>/5

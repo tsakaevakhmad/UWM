@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
 using System.Net.Http.Json;
-using UWM.DAL.Data;
 using UWM.Domain.DTO.Items;
 
 namespace UWM.NUnit.Tests.ControllersTest
 {
     [TestFixture]
-    public class ItemControllerTest
+    public class ItemTest
     {
         private int id;
         private int subcatId;
@@ -25,7 +17,6 @@ namespace UWM.NUnit.Tests.ControllersTest
         public async Task A_Post_ShouldBeOk()
         {
             // Arrange
-            // 
             var item = new ItemDto
             {
                 Title = "Topic",
@@ -40,13 +31,13 @@ namespace UWM.NUnit.Tests.ControllersTest
             };
             string json = JsonConvert.SerializeObject(item);
             StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            
             // Act
-
             HttpResponseMessage response = await client.PostAsync("api/Item", httpContent);
             var res = await response.Content.ReadFromJsonAsync<int>();
             id = res;
+            
             // Assert
-
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.IsTrue(res > 0);
         }

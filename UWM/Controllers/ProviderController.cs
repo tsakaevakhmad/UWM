@@ -26,9 +26,9 @@ namespace UWM.Controllers
 
         // POST api/<ProviderController>
         [HttpPost]
-        public async Task Post([FromBody] ProviderDto provider)
+        public async Task<int> Post([FromBody] ProviderDto provider)
         {
-            await _provider.Create(provider);
+            return await _provider.Create(provider);
         }
 
         // PUT api/<ProviderController>/5
