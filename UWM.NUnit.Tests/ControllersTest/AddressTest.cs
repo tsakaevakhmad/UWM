@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
-using UWM.Domain.DTO.Category;
 using UWM.Domain.DTO.Watehouses;
 
 namespace UWM.NUnit.Tests.ControllersTest
 {
-    
+
     public class AddressTest
     {
         private readonly HttpClient client = ClientForTests.GetClient();

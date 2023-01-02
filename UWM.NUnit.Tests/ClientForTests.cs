@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Data.Common;
 using UWM.DAL.Data;
 namespace UWM.NUnit.Tests
 {
-    internal static class ClientForTests
+    public static class ClientForTests
     {
         public static HttpClient GetClient() 
         {
@@ -20,11 +23,17 @@ namespace UWM.NUnit.Tests
 
                     services.AddDbContext<AppDBContext>(opt =>
                     {
-                        opt.UseSqlServer("Data Source=localhost,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;");
+                        IConfiguration configuration = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile(@"appsettings.json", false, false)
+                        .AddEnvironmentVariables()
+                        .Build();
+
+                        var connections = configuration.GetSection("TestDb").Value;
+                        opt.UseSqlServer(connections); 
                     });
                 });
-            });
-            
+            });        
             return webHost.CreateClient();  
         }
     }
