@@ -26,6 +26,7 @@ namespace UWM.NUnit.Tests
                         IConfiguration configuration = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile(@"appsettings.json", false, false)
+                        .AddJsonFile(@"secrets.json", false, false)
                         .AddEnvironmentVariables()
                         .Build();
 

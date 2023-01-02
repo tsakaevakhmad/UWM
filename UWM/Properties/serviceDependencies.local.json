@@ -5,6 +5,10 @@
       "type": "mssql.local",
       "connectionId": "dbString",
       "dynamicId": null
+    },
+    "secrets1": {
+      "type": "secrets.user",
+      "dynamicId": null
     }
   }
 }
