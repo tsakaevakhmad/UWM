@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWM.DAL", "UWM.DAL\UWM.DAL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWM.BLL", "UWM.BLL\UWM.BLL.csproj", "{1A77FD4A-685F-4EAF-A206-5233B1CFBD7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWM.NUnit.Tests", "UWM.NUnit.Tests\UWM.NUnit.Tests.csproj", "{34052E44-9115-49F8-A813-5BDA9EA88DA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UWM.NUnit.Tests", "UWM.NUnit.Tests\UWM.NUnit.Tests.csproj", "{34052E44-9115-49F8-A813-5BDA9EA88DA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

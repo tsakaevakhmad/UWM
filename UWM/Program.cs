@@ -13,14 +13,15 @@ using UWM.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("secrets.json");
 // Add services to the container.
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(builder.Configuration["uwm-main-db"]));
+var connection = builder.Configuration.GetSection("uwm-main-db").Value;
+builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(connection));
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
