@@ -17,6 +17,7 @@ namespace UWM.DAL.Repositories
         public async Task<int> Create(Category item)
         {
             await _db.AddAsync(item);
+            
             try
             {
                 await _db.SaveChangesAsync();
@@ -33,24 +34,41 @@ namespace UWM.DAL.Repositories
             var item = await _db.Category.FindAsync(id);
             if (item == null)
                 throw new Exception();
+            
             _db.Category.Remove(item);
-            await _db.SaveChangesAsync();
+            
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<Category> Get(int id)
         {
-            return await _db.Category.Include(s => s.SubCategories).Where(c => c.Id == id).FirstOrDefaultAsync();
+            return await _db.Category
+                .Include(s => s.SubCategories)
+                .Where(c => c.Id == id)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Category>> GetAll()
         {
-            return await _db.Category.Include(s => s.SubCategories).ToListAsync();
+            return await _db.Category
+                .Include(s => s.SubCategories)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task Update(Category item)
         {
             var result = _db.Entry<Category>(item);
             result.State = EntityState.Modified;
+            
             try
             {
                await _db.SaveChangesAsync();

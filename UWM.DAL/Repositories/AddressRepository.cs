@@ -18,6 +18,7 @@ namespace UWM.DAL.Repositories
         {
             var result = _db.Entry<Address>(item);
             result.State = EntityState.Modified;
+            
             try
             {
                 await _db.SaveChangesAsync();

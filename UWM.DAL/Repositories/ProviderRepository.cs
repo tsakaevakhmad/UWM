@@ -18,6 +18,7 @@ namespace UWM.DAL.Repositories
         public async Task<int> Create(Provider item)
         {
             await _db.Provider.AddAsync(item);
+            
             try
             {
                 await _db.SaveChangesAsync();
@@ -34,19 +35,31 @@ namespace UWM.DAL.Repositories
             var item = await _db.Provider.FindAsync(id);
             if (item == null)
                 throw new Exception();
+            
             _db.Provider.Remove(item);
-            await _db.SaveChangesAsync();
+            
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<IEnumerable<Provider>> GetAll()
         {
-            return await _db.Provider.ToListAsync();
+            return await _db.Provider
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task Update(Provider item)
         {
             var result = _db.Entry<Provider>(item);
             result.State = EntityState.Modified;
+            
             try
             {
                 await _db.SaveChangesAsync();

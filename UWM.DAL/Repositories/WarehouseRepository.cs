@@ -18,6 +18,7 @@ namespace UWM.DAL.Repositories
             warehouse.Address = warehouse.Address;
             await _db.Address.AddAsync(warehouse.Address);
             await _db.Warehous.AddAsync(warehouse);
+            
             try
             {
                 await _db.SaveChangesAsync();
@@ -34,19 +35,29 @@ namespace UWM.DAL.Repositories
             var item = await _db.Warehous.FindAsync(id);
             if (item == null)
                 throw new Exception();
+            
             _db.Warehous.Remove(item);
-            await _db.SaveChangesAsync();
+            
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<IEnumerable<Warehouse>> GetAll()
         {
-            return await _db.Warehous.Include(a => a.Address).ToListAsync();
+            return await _db.Warehous.Include(a => a.Address).AsNoTracking().ToListAsync();
         }
 
         public async Task Update(Warehouse item)
         {
             var result = _db.Entry<Warehouse>(item);
             result.State = EntityState.Modified;
+            
             try
             {
                 await _db.SaveChangesAsync();
