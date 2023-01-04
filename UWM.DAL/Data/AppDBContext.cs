@@ -7,7 +7,10 @@ namespace UWM.DAL.Data
     public class AppDBContext : IdentityDbContext
     {
         public AppDBContext(DbContextOptions<AppDBContext> options)
-            : base(options) { }
+            : base(options) 
+        {
+            Database.EnsureCreated();
+        }
         public DbSet<Provider> Provider { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Warehouse> Warehous { get; set; }
