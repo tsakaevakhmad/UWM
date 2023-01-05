@@ -1,0 +1,28 @@
+version: '3.5'
+
+networks:
+  uwm-networks:
+    name: uwm-networks
+
+services:
+  webapp:
+    image: ahmadck/uwm_asp_core_7:latest
+    container_name: UWM
+    ports:
+      - "5412:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UWM-MAIN-DB=Data Source=UWMDB,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;
+    networks:
+      - uwm-networks
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: UWMDB
+    ports:
+      - "5515:1433"
+    environment:
+      - SA_PASSWORD=P@ssword
+      - ACCEPT_EULA=Y
+    networks:
+      - uwm-networks
