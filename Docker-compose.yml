@@ -26,3 +26,13 @@ services:
       - ACCEPT_EULA=Y
     networks:
       - uwm-networks
+
+  proxy:
+    image: nginx:mainline
+    container_name: Proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - uwm-networks
