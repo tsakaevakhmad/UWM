@@ -5,7 +5,7 @@ networks:
     name: uwm-networks
 
 services:
-  webapp:
+  backend:
     image: ahmadck/uwm_asp_core_7:latest
     container_name: UWM
     ports:
@@ -13,6 +13,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - UWM-MAIN-DB=Data Source=UWMDB,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;
+      - CORS=http://localhost:3000,http://localhost:3020
     networks:
       - uwm-networks
 

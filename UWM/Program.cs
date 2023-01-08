@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using UWM.BLL.Interfaces;
 using UWM.BLL.Services;
 using UWM.DAL.AutoMapper;
@@ -39,6 +40,8 @@ builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,6 +56,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var cors = builder.Configuration.GetSection("Cors").Value.Split(",");
+
+if (cors != null)
+    app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins(cors));
 
 app.Run();
 
