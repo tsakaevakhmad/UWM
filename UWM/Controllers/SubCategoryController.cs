@@ -26,6 +26,7 @@ namespace UWM.Controllers
             return await _subCategory.GetAll();
         }
 
+        // GET: api/<SubCategoryController>
         [HttpGet("{id}")]
         public async Task<SubCategoryDto> Get(int id)
         {
