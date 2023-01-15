@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UWM.Domain.DTO.Providers;
-using UWM.Domain.Entity;
+﻿using UWM.Domain.DTO.Providers;
 
 namespace UWM.BLL.Interfaces
 {
@@ -9,6 +7,7 @@ namespace UWM.BLL.Interfaces
         Task<int> Create(ProviderDto provider);
         Task Delete(int id);
         Task<IEnumerable<ProviderDto>> GetAll();
+        Task<ProviderDto> Get(int id);
         Task Update(ProviderDto provider);
     }
 }

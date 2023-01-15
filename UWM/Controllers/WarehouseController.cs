@@ -24,6 +24,12 @@ namespace UWM.Controllers
             return await _warehouse.GetAll();
         }
 
+        [HttpGet("{id}")]
+        public async Task<WarehouseDto> Get(int id)
+        {
+            return await _warehouse.Get(id);
+        }
+
         // POST api/<WarehouseController>
         [HttpPost]
         public async Task<int> Post([FromBody] WarehouseDto warehose)

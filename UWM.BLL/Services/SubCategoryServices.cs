@@ -30,6 +30,11 @@ namespace UWM.BLL.Services
             await _repository.Delete(id);
         }
 
+        public async Task<SubCategoryDto> Get(int id)
+        {
+            return _mapper.Map<SubCategoryDto>(await _repository.Get(id));
+        }
+
         public async Task<IEnumerable<SubCategoryDto>> GetAll()
         {
             return _mapper.Map<IEnumerable<SubCategoryDto>>(await _repository.GetAll());

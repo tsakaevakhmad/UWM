@@ -10,6 +10,7 @@ namespace UWM.BLL.Interfaces
         Task<int> Create(SubCategoryDto subCategory);
         Task Delete(int id);
         Task<IEnumerable<SubCategoryDto>> GetAll();
+        Task<SubCategoryDto> Get(int id);
         Task Update(SubCategoryDto subCategory);
     }
 }

@@ -48,6 +48,11 @@ namespace UWM.DAL.Repositories
             }
         }
 
+        public async Task<Provider> Get(int id)
+        {
+            return await _db.Provider.FindAsync(id);
+        }
+
         public async Task<IEnumerable<Provider>> GetAll()
         {
             return await _db.Provider

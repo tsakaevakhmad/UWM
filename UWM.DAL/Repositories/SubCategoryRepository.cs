@@ -48,6 +48,11 @@ namespace UWM.DAL.Repositories
             }
         }
 
+        public async Task<SubCategory> Get(int id)
+        {
+            return await _db.SubCategory.FindAsync(id);
+        }
+
         public async Task<IEnumerable<SubCategory>> GetAll()
         {
             return await _db.SubCategory.ToListAsync();

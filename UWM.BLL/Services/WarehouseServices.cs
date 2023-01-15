@@ -30,6 +30,11 @@ namespace UWM.BLL.Services
             await _repository.Delete(Id);
         }
 
+        public async Task<WarehouseDto> Get(int id)
+        {
+            return _mapper.Map<WarehouseDto>(await _repository.Get(id));
+        }
+
         public async Task<IEnumerable<WarehouseDto>> GetAll()
         {
             return _mapper.Map<IEnumerable<WarehouseDto>>(await _repository.GetAll());

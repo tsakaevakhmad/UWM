@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.SubCategory;
+using UWM.Domain.DTO.Watehouses;
+using UWM.Domain.Entity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +24,12 @@ namespace UWM.Controllers
         public async Task<IEnumerable<SubCategoryDto>> Get()
         {
             return await _subCategory.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<SubCategoryDto> Get(int id)
+        {
+            return await _subCategory.Get(id);
         }
 
         // POST api/<SubCategoryController>

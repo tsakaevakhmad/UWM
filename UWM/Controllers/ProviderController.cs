@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Providers;
+using UWM.Domain.DTO.SubCategory;
+using UWM.Domain.Entity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +24,12 @@ namespace UWM.Controllers
         public async Task<IEnumerable<ProviderDto>> Get()
         {
             return await _provider.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ProviderDto> Get(int id)
+        {
+            return await _provider.Get(id);
         }
 
         // POST api/<ProviderController>
