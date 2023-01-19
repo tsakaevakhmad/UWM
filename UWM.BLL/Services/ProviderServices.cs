@@ -22,6 +22,9 @@ namespace UWM.BLL.Services
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
 
+            if(string.IsNullOrEmpty(provider.Name))
+                throw new ArgumentNullException(nameof(provider.Name));
+
             return await _repository.Create(_mapper.Map<Provider>(provider));
         }
 
@@ -44,6 +47,9 @@ namespace UWM.BLL.Services
         {
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
+
+            if (string.IsNullOrEmpty(provider.Name))
+                throw new ArgumentNullException(nameof(provider.Name));
 
             await _repository.Update(_mapper.Map<Provider>(provider));
         }

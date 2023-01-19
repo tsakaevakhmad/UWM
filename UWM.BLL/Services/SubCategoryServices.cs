@@ -22,6 +22,9 @@ namespace UWM.BLL.Services
             if (subCategory == null)
                 throw new ArgumentNullException(nameof(subCategory));
 
+            if (string.IsNullOrEmpty(subCategory.Name))
+                throw new ArgumentNullException(nameof(subCategory.Name));
+
             return await _repository.Create(_mapper.Map<SubCategory>(subCategory));
         }
 
@@ -44,6 +47,9 @@ namespace UWM.BLL.Services
         {
             if (subCategory == null)
                 throw new ArgumentNullException(nameof(subCategory));
+
+            if (string.IsNullOrEmpty(subCategory.Name))
+                throw new ArgumentNullException(nameof(subCategory.Name));
 
             await _repository.Update(_mapper.Map<SubCategory>(subCategory));
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Linq;
 using UWM.BLL.Interfaces;
 using UWM.DAL.Interfaces.Warehouses;
 using UWM.Domain.DTO.Watehouses;
@@ -22,6 +23,15 @@ namespace UWM.BLL.Services
             if (warehouse == null)
                 throw new ArgumentNullException(nameof(warehouse));
 
+            if (string.IsNullOrEmpty(warehouse.Number))
+                throw new ArgumentNullException(nameof(warehouse.Number));
+
+            if (warehouse.AddressDto == null)
+                throw new ArgumentNullException(nameof(warehouse.AddressDto));
+
+            if (string.IsNullOrEmpty(warehouse.AddressDto.Country))
+                throw new ArgumentNullException(nameof(warehouse.AddressDto.Country));
+
             return await _repository.Create(_mapper.Map<Warehouse>(warehouse));
         }
 
@@ -44,6 +54,15 @@ namespace UWM.BLL.Services
         {
             if (warehouse == null)
                 throw new ArgumentNullException(nameof(warehouse));
+
+            if (string.IsNullOrEmpty(warehouse.Number))
+                throw new ArgumentNullException(nameof(warehouse.Number));
+            
+            if (warehouse.AddressDto == null)
+                throw new ArgumentNullException(nameof(warehouse.AddressDto));
+
+            if (string.IsNullOrEmpty(warehouse.AddressDto.Country))
+                throw new ArgumentNullException(nameof(warehouse.AddressDto.Country));
 
             await _repository.Update(_mapper.Map<Warehouse>(warehouse));
         }

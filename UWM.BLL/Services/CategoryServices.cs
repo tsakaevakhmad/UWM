@@ -19,8 +19,12 @@ namespace UWM.BLL.Services
 
         public async Task<int> Create(CategoryDto category)
         {
+            
             if (category == null)
                 throw new ArgumentNullException(nameof(category));
+            
+            if (string.IsNullOrEmpty(category.Name))
+                throw new ArgumentNullException(nameof(category.Name));
 
             return await _repository.Create(_mapper.Map<Category>(category));
         }
@@ -44,7 +48,10 @@ namespace UWM.BLL.Services
         {
             if (category == null)
                 throw new ArgumentNullException(nameof(category));
-            
+
+            if (string.IsNullOrEmpty(category.Name))
+                throw new ArgumentNullException(nameof(category.Name));
+
             await _repository.Update(_mapper.Map<Category>(category));
         }
     }
