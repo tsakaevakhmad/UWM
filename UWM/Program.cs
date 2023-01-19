@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+using System.Text;
 using UWM.BLL.Interfaces;
 using UWM.BLL.Services;
 using UWM.DAL.AutoMapper;
@@ -9,6 +14,8 @@ using UWM.DAL.Interfaces.Providers;
 using UWM.DAL.Interfaces.SubCategories;
 using UWM.DAL.Interfaces.Warehouses;
 using UWM.DAL.Repositories;
+using UWM.Domain.JWT;
+using UWM.Domain.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,17 +26,53 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var connection = builder.Configuration.GetSection("uwm-main-db").Value;
 builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(connection));
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWT"));
+builder.Services.Configure<MailConfig>(builder.Configuration.GetSection("MailConfig"));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+                opt =>
+                {
+                    opt.Password.RequireDigit = true;
+                    opt.Password.RequiredLength = 8;
+                    opt.User.RequireUniqueEmail = true;
+                    opt.SignIn.RequireConfirmedEmail = false;
+                })
+                .AddEntityFrameworkStores<AppDBContext>()
+                .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetSection("JWT:Issuer").Value,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetSection("JWT:Audience").Value,
+        ValidateLifetime = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:SecretKey").Value))
+    };
+});
+
+//Services
 builder.Services.AddTransient<IItemServices, ItemServices>();
 builder.Services.AddTransient<ICategoryServices, CategoryServices>();
 builder.Services.AddTransient<IProviderServices, ProviderServices>();
 builder.Services.AddTransient<ISubCategoryServices, SubCategoryServices>();
 builder.Services.AddTransient<IWarehouseServices, WarehouseServices>();
+builder.Services.AddTransient<IAuthrizationServices, AuthrizationServices>();
 
+//Repositories
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
@@ -49,6 +92,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
