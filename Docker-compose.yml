@@ -13,7 +13,15 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - UWM-MAIN-DB=Data Source=UWMDB,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;
-      - CORS=http://localhost:3000,http://localhost:3020
+      - CORS=http://localhost:3000
+      - MailConfig:SSL=SSL
+      - MailConfig:Port=PORT
+      - MailConfig:Password=Password of mail
+      - MailConfig:Mail=YOUR MAIL
+      - MailConfig:Domain=YOUR mail smtp
+      - JWT:SecretKey=Your secrete key Any string value
+      - JWT:Issuer=From Any string value
+      - JWT:Audience=To Any string value
     networks:
       - uwm-networks
 
