@@ -43,7 +43,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
                     opt.Password.RequireNonAlphanumeric = false;
                     opt.Password.RequireUppercase = false;
                     opt.User.RequireUniqueEmail = true;
-                    opt.SignIn.RequireConfirmedEmail = false;
+                    opt.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<AppDBContext>()
                 .AddDefaultTokenProviders();

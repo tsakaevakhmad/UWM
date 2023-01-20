@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Configuration;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
 
@@ -14,14 +15,17 @@ namespace UWM.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IAuthorizationServices _authorizationServices;
-        public AuthorizationController(SignInManager<IdentityUser> signInManager, IAuthorizationServices authorizationServices)
+        private readonly IConfiguration _configuration;
+
+        public AuthorizationController(SignInManager<IdentityUser> signInManager, IAuthorizationServices authorizationServices, IConfiguration configuration)
         {
             _signInManager = signInManager;
             _authorizationServices = authorizationServices;
+            _configuration = configuration;
         }
 
         // POST api/Authorization/Login
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
             if (ModelState.IsValid)
@@ -43,14 +47,15 @@ namespace UWM.Controllers
 
         private async void SendMailToConfirm(string email, string code)
         {
+
             var callbackUrl = Url.Action(
-                                            "ConfirmEmail",
-                                            "Authorization",
-                                            new { userName = email, code = code },
-                                            protocol: HttpContext.Request.Scheme);
-            
-            await _authorizationServices.SendEmailAsync(email, "Confirm your account",
-                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>Подтвердить</a>");
+                "ConfirmEmail",
+                "Authorization",
+                new { userEmail = email, code = code },
+                protocol: HttpContext.Request.Scheme);
+
+            await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
+                $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{callbackUrl}'>Подтвердить</a>");
         }
 
         // POST api/Authorization/Logout
@@ -61,8 +66,27 @@ namespace UWM.Controllers
             return Ok();
         }
 
+        // POST api/Authorization/Logout
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(UserEmail email)
+        {
+            var code = await _authorizationServices.ForgotPassword(email);
+
+            await _authorizationServices.SendEmailAsync(email.Email, "Ключ для сброса пароля", $"<h4>Ваш ключ: <code>{code}</code></h4> <br/> <h5>Вставьте данный ключ в соотвествующее поле в меню сброса пароля</h5>");
+            return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
+        }
+
+        // POST api/Authorization/Logout
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetUserPassword model)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest("Модель не правильно заполнина");
+            return Ok(await _authorizationServices.ResetPassword(model));
+        }
+
         // POST api/Authorization/Register
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Registeration(Registration registration)
         {
             if (ModelState.IsValid)
@@ -80,13 +104,16 @@ namespace UWM.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userName, string code)
+        public async Task<RedirectResult> ConfirmEmail(string userEmail, string code)
         {
-            var result = await _authorizationServices.ConfirmEmail(userName, code);
+            var url = _configuration.GetSection("CORS").Value.Split(",")[0];
+            var result = await _authorizationServices.ConfirmEmail(userEmail, code);
             if (result == true)
-                return Ok("Успешно");
-            else
-                return BadRequest();
+            {
+                await _authorizationServices.SendEmailAsync(userEmail, "Ваша аккаунт подтвержден", "Поздравляем вы успешно подтвердили свою учетную запись");
+                return Redirect(url);
+            }
+            return Redirect(url+"/BadRequest");
         }
     }
 }

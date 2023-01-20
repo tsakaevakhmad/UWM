@@ -10,6 +10,8 @@ using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
 using UWM.Domain.JWT;
 using UWM.Domain.Options;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Security.Policy;
 
 namespace UWM.BLL.Services
 {
@@ -114,14 +116,39 @@ namespace UWM.BLL.Services
             }
         }
 
-        public async Task<bool> ConfirmEmail(string userName, string code)
+        public async Task<string> ForgotPassword(UserEmail model)
         {
-            if (userName == null || code == null)
+
+            var user = await _userManager.FindByEmailAsync(model.Email);    
+            if (user == null || !user.EmailConfirmed)
+            {
+                return null;
+            }
+
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return code;
+        }
+
+        public async Task<bool> ResetPassword(ResetUserPassword model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
             {
                 return false;
             }
 
-            var user = await _userManager.FindByEmailAsync(userName);
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> ConfirmEmail(string userEmail, string code)
+        {
+            if (userEmail == null || code == null)
+            {
+                return false;
+            }
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
                 return false;

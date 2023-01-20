@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UWM.DAL.Data;
-using UWM.Domain.DTO.SubCategory;
-using UWM.Domain.Entity;
+﻿using UWM.Domain.DTO.SubCategory;
 
 namespace UWM.BLL.Interfaces
 {
