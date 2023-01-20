@@ -1,0 +1,47 @@
+version: '3.5'
+
+networks:
+  uwm-networks:
+    name: uwm-networks
+
+services:
+  backend:
+    image: ahmadck/uwm_asp_core_7:latest
+    container_name: UWM
+    ports:
+      - "5412:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UWM-MAIN-DB=Data Source=UWMDB,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;
+      - CORS=http://localhost:3000
+      - MailConfig:SSL=SSL true or false
+      - MailConfig:Port=PORT
+      - MailConfig:Password=Password of mail
+      - MailConfig:Mail=YOUR MAIL
+      - MailConfig:Domain=YOUR mail smtp
+      - JWT:SecretKey=Your secrete key Any string value
+      - JWT:Issuer=From Any string value
+      - JWT:Audience=To Any string value
+    networks:
+      - uwm-networks
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: UWMDB
+    ports:
+      - "5515:1433"
+    environment:
+      - SA_PASSWORD=P@ssword
+      - ACCEPT_EULA=Y
+    networks:
+      - uwm-networks
+
+  proxy:
+    image: nginx:mainline
+    container_name: Proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - uwm-networks
