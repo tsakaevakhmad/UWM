@@ -2,7 +2,7 @@
 
 namespace UWM.BLL.Interfaces
 {
-    public interface IAuthrizationServices
+    public interface IAuthorizationServices
     {
         public Task<TokenOrMailConfirme> Login(Login login);
         public Task<RegistrationSuccsess> Registration(Registration registration);

@@ -13,8 +13,8 @@ namespace UWM.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IAuthrizationServices _authorizationServices;
-        public AuthorizationController(SignInManager<IdentityUser> signInManager, IAuthrizationServices authorizationServices)
+        private readonly IAuthorizationServices _authorizationServices;
+        public AuthorizationController(SignInManager<IdentityUser> signInManager, IAuthorizationServices authorizationServices)
         {
             _signInManager = signInManager;
             _authorizationServices = authorizationServices;

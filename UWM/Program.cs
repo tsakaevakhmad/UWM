@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
 using System.Text;
 using UWM.BLL.Interfaces;
 using UWM.BLL.Services;
@@ -38,8 +38,10 @@ builder.Services.Configure<MailConfig>(builder.Configuration.GetSection("MailCon
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
                 opt =>
                 {
-                    opt.Password.RequireDigit = true;
+                    opt.Password.RequireDigit = false;
                     opt.Password.RequiredLength = 8;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireUppercase = false;
                     opt.User.RequireUniqueEmail = true;
                     opt.SignIn.RequireConfirmedEmail = false;
                 })
@@ -70,7 +72,8 @@ builder.Services.AddTransient<ICategoryServices, CategoryServices>();
 builder.Services.AddTransient<IProviderServices, ProviderServices>();
 builder.Services.AddTransient<ISubCategoryServices, SubCategoryServices>();
 builder.Services.AddTransient<IWarehouseServices, WarehouseServices>();
-builder.Services.AddTransient<IAuthrizationServices, AuthrizationServices>();
+builder.Services.AddTransient<IAuthorizationServices, AuthorizationServices>();
+builder.Services.AddTransient<IAdminServices, AdminServices>();
 
 //Repositories
 builder.Services.AddScoped<IItemRepository, ItemRepository>();

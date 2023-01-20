@@ -13,14 +13,14 @@ using UWM.Domain.Options;
 
 namespace UWM.BLL.Services
 {
-    public class AuthrizationServices : IAuthrizationServices
+    public class AuthorizationServices : IAuthorizationServices
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JWTSettings _options;
         private readonly MailConfig _mailOptions;
 
-        public AuthrizationServices(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IOptions<JWTSettings> options, IOptions<MailConfig> mailOptions) 
+        public AuthorizationServices(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IOptions<JWTSettings> options, IOptions<MailConfig> mailOptions) 
         { 
             _userManager = userManager;
             _signInManager = signInManager;
@@ -78,6 +78,7 @@ namespace UWM.BLL.Services
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
                         };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
@@ -119,16 +120,17 @@ namespace UWM.BLL.Services
             {
                 return false;
             }
+
             var user = await _userManager.FindByEmailAsync(userName);
             if (user == null)
             {
                 return false;
             }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
                 return true;
-            else
-                return false;
+            return false;
         }
     }
 }
