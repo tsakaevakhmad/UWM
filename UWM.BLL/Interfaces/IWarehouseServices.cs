@@ -1,6 +1,5 @@
 ﻿
 using UWM.Domain.DTO.Watehouses;
-using UWM.Domain.Entity;
 
 namespace UWM.BLL.Interfaces
 {
