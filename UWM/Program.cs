@@ -45,6 +45,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
                     opt.User.RequireUniqueEmail = true;
                     opt.SignIn.RequireConfirmedEmail = true;
                 })
+                .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<AppDBContext>()
                 .AddDefaultTokenProviders();
 
@@ -62,7 +64,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = builder.Configuration.GetSection("JWT:Audience").Value,
         ValidateLifetime = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:SecretKey").Value))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWT:SecretKey").Value)),
+        ValidateIssuerSigningKey = true
     };
 });
 

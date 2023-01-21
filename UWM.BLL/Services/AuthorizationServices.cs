@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
-using MailKit.Net.Smtp;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,8 +10,6 @@ using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
 using UWM.Domain.JWT;
 using UWM.Domain.Options;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System.Security.Policy;
 
 namespace UWM.BLL.Services
 {
@@ -40,7 +38,7 @@ namespace UWM.BLL.Services
                     var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
                     if (passwordCheck.Succeeded)
                     {
-                        var token = GetToken(user, _options);
+                        var token = await GetToken(user, _options);
                         return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token) };
                     }
                     return null;
@@ -72,14 +70,17 @@ namespace UWM.BLL.Services
             return null;
         }
 
-        private JwtSecurityToken GetToken(IdentityUser user, JWTSettings _options)
+        private async Task<JwtSecurityToken> GetToken(IdentityUser user, JWTSettings _options)
         {
+            var x = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>()
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+                            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),   
                         };
+            foreach (var c in x)
+                claims.Add(new Claim(ClaimTypes.Role, c));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
