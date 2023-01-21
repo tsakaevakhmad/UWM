@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Items;
 
@@ -8,20 +9,21 @@ namespace UWM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User")]
     public class ItemController : ControllerBase
     {
         private readonly IItemServices _item;
 
-        public ItemController(IItemServices item) 
+        public ItemController(IItemServices item)
         {
-            _item = item; 
+            _item = item;
         }
 
         // GET: api/<ItemController>
         [HttpGet]
         public async Task<IEnumerable<ItemListDto>> Get()
         {
-            return await _item.GetAll(); 
+            return await _item.GetAll();
         }
 
         // GET api/<ItemController>/5

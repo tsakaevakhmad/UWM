@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Admin;
 
@@ -8,6 +9,7 @@ namespace UWM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminServices _adminServices;

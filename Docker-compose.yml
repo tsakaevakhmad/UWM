@@ -14,7 +14,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - UWM-MAIN-DB=Data Source=UWMDB,1433;Database=master;User ID=sa;Password=P@ssword;Persist Security Info=False;
       - CORS=http://localhost:3000
-      - MailConfig:SSL=SSL
+      - MailConfig:SSL=SSL true or false
       - MailConfig:Port=PORT
       - MailConfig:Password=Password of mail
       - MailConfig:Mail=YOUR MAIL
