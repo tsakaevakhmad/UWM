@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.SubCategory;
-using UWM.Domain.DTO.Watehouses;
-using UWM.Domain.Entity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +10,7 @@ namespace UWM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User")]
     public class SubCategoryController : ControllerBase
     {
         private readonly ISubCategoryServices _subCategory;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
 
@@ -31,11 +31,15 @@ namespace UWM.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _authorizationServices.Login(login);
-                if (result.Token != null)
+                
+                if(result == null)
+                    return Unauthorized(new { Error = "Password or Mail wrong" });
+
+                if (!string.IsNullOrEmpty(result.Token))
                 {
                     return Ok(new { Token = result.Token });
                 }
-                else if (result.Code != null)
+                else if (!string.IsNullOrEmpty(result.Code))
                 {
                     SendMailToConfirm(login.Email, result.Code);
                     return Content("Ваша регистрация не завршена. Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
