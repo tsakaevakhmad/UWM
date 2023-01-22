@@ -25,7 +25,7 @@
   </tr>
 </table>
 
-<h3>CORS policy </h3>
+<h3>CORS Policy </h3>
 <table>
   <tr>
     <td><code>CORS</code></td>
@@ -34,7 +34,7 @@
   </tr>
 </table>
 <p>You can add one or more CORE policies using a comma<code>( , )</code></p>
-<h3>Mail config </h3>
+<h3>Mail Сonfig </h3>
 <table>
   <tr>
     <td>SSL</td>
