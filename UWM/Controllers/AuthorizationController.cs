@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace UWM.Controllers
 {
@@ -49,19 +46,6 @@ namespace UWM.Controllers
             return BadRequest();
         }
 
-        private async void SendMailToConfirm(string email, string code)
-        {
-
-            var callbackUrl = Url.Action(
-                "ConfirmEmail",
-                "Authorization",
-                new { userEmail = email, code = code },
-                protocol: HttpContext.Request.Scheme);
-
-            await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
-                $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{callbackUrl}'>Подтвердить</a>");
-        }
-
         // POST api/Authorization/Logout
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
@@ -70,7 +54,7 @@ namespace UWM.Controllers
             return Ok();
         }
 
-        // POST api/Authorization/Logout
+        // POST api/Authorization/ForgotPassword
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(UserEmail email)
         {
@@ -80,12 +64,12 @@ namespace UWM.Controllers
             return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
         }
 
-        // POST api/Authorization/Logout
+        // POST api/Authorization/ResetPassword
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetUserPassword model)
         {
             if(!ModelState.IsValid)
-                return BadRequest("Модель не правильно заполнина");
+                return BadRequest("Модель неправильно заполнина");
             return Ok(await _authorizationServices.ResetPassword(model));
         }
 
@@ -118,6 +102,19 @@ namespace UWM.Controllers
                 return Redirect(url);
             }
             return Redirect(url+"/BadRequest");
+        }
+
+        private async void SendMailToConfirm(string email, string code)
+        {
+
+            var callbackUrl = Url.Action(
+                "ConfirmEmail",
+                "Authorization",
+                new { userEmail = email, code = code },
+                protocol: HttpContext.Request.Scheme);
+
+            await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
+                $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{callbackUrl}'>Подтвердить</a>");
         }
     }
 }

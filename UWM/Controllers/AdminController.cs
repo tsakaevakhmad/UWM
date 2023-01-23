@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Admin;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace UWM.Controllers
 {
     [Route("api/[controller]")]
