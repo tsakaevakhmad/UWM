@@ -19,9 +19,9 @@
 <h3>Connection String  "MS SQL" </h3>
 <table>
   <tr>
-    <td><code>uwm-main-db</code></td>
+    <td><code>DB</code></td>
     <td><code>Your Connection string</code></td>
-    <td><code>--env uwm-main-db='Your Connection string' </code></td>
+    <td><code>--env DB='Your Connection string' </code></td>
   </tr>
 </table>
 
