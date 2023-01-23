@@ -26,7 +26,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connection = builder.Configuration.GetSection("uwm-main-db").Value;
+var connection = builder.Configuration.GetSection("DB").Value;
 builder.Services.AddDbContext<AppDBContext>(option => option.UseSqlServer(connection));
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
