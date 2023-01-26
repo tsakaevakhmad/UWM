@@ -82,5 +82,5 @@
 </table>
 <br>
 <p>Command:<code>docker run -p 4536:80/tcp ahmadck/uwm_asp_core_7</code>
-<p><a href="https://github.com/ZLUKADARK/UWM/blob/master/Docker-compose.yml">Docker-compose</a>
+<p><a href="https://github.com/ZLUKADARK/UWM/blob/master/Docker-compose-Example.yml">Docker-compose</a>
 
