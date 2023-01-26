@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /UWM/secrets.json
 /UWM/Dockerfile
 /Docker-compose.yml
+/docker-compose.yml
