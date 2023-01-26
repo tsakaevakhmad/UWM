@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /UWM/secrets.json
 /UWM/Dockerfile
+/Docker-compose.yml
