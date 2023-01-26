@@ -97,15 +97,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
 var cors = builder.Configuration.GetSection("Cors").Value.Split(",");
 
 if (cors != null)
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins(cors));
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
 
