@@ -59,8 +59,9 @@ namespace UWM.Controllers
         public async Task<IActionResult> ForgotPassword(UserEmail email)
         {
             var code = await _authorizationServices.ForgotPassword(email);
-
-            await _authorizationServices.SendEmailAsync(email.Email, "Ключ для сброса пароля", $"<h4>Ваш ключ: <code>{code}</code></h4> <br/> <h5>Вставьте данный ключ в соотвествующее поле в меню сброса пароля</h5>");
+            var link = $"{_configuration.GetSection("Cors").Value}/authorization/resetpassword?code={code}";
+            await _authorizationServices.SendEmailAsync(email.Email, 
+                "Подтвержение аккаунта", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
             return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
         }
 
@@ -106,15 +107,10 @@ namespace UWM.Controllers
 
         private async void SendMailToConfirm(string email, string code)
         {
-
-            var callbackUrl = Url.Action(
-                "ConfirmEmail",
-                "Authorization",
-                new { userEmail = email, code = code },
-                protocol: HttpContext.Request.Scheme);
+            var link = $"{_configuration.GetSection("Cors").Value}/authorization/confirmaccaunt?email={email}&code={code}";
 
             await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
-                $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{callbackUrl}'>Подтвердить</a>");
+                $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{link}'>Подтвердить</a>");
         }
     }
 }
