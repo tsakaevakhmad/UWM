@@ -59,7 +59,7 @@ namespace UWM.Controllers
         public async Task<IActionResult> ForgotPassword(UserEmail email)
         {
             var code = await _authorizationServices.ForgotPassword(email);
-            var link = $"{_configuration.GetSection("Cors").Value}/authorization/resetpassword?code={code}";
+            var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/resetpassword?code={code}";
             await _authorizationServices.SendEmailAsync(email.Email, 
                 "Подтвержение аккаунта", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
             return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
@@ -91,23 +91,23 @@ namespace UWM.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<RedirectResult> ConfirmEmail(string userEmail, string code)
+        public async Task<bool> ConfirmEmail(ConfirmAccaunt confirm)
         {
             var url = _configuration.GetSection("CORS").Value.Split(",")[0];
-            var result = await _authorizationServices.ConfirmEmail(userEmail, code);
+            var result = await _authorizationServices.ConfirmEmail(confirm.Email, confirm.Code);
             if (result == true)
             {
-                await _authorizationServices.SendEmailAsync(userEmail, "Ваша аккаунт подтвержден", "Поздравляем вы успешно подтвердили свою учетную запись");
-                return Redirect(url);
+                await _authorizationServices.SendEmailAsync(confirm.Email, "Ваша аккаунт подтвержден", "Поздравляем вы успешно подтвердили свою учетную запись");
+                return true;
             }
-            return Redirect(url+"/BadRequest");
+            return false;
         }
 
         private async void SendMailToConfirm(string email, string code)
         {
-            var link = $"{_configuration.GetSection("Cors").Value}/authorization/confirmaccaunt?email={email}&code={code}";
+            var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/confirmaccaunt?email={email}&code={code}";
 
             await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
                 $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{link}'>Подтвердить</a>");
