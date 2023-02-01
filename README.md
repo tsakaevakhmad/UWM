@@ -5,7 +5,14 @@
 <div id="header" align="center">
   <img src="https://user-images.githubusercontent.com/48823161/209620578-40e4db12-b1fd-40ab-89fe-551f03e32008.png" />
 </div>
+   <br/>
 <h1>INFORMATION</h1>
+     <div>
+        <p> When you run this app it created 2 roles and 1 admin user. </p>
+        <p> To loggin. Recomended create new admin user, usin this profile and delete this profile 
+        <p> Email = "admin@gmail.com 
+        <p> Password = "admin"
+      </div>
 <h2>Environment variables : </h2>
 <h3 style="color:blue;">Swagger </h3>
 <table>
