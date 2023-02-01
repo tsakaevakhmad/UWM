@@ -34,7 +34,7 @@ namespace UWM.Controllers
 
                 if (!string.IsNullOrEmpty(result.Token))
                 {
-                    return Ok(new { Token = result.Token });
+                    return Ok(new { Token = result.Token, UserInfo = result.UserInfo });
                 }
                 else if (!string.IsNullOrEmpty(result.Code))
                 {

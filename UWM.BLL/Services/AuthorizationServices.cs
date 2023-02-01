@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
@@ -7,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UWM.BLL.Interfaces;
+using UWM.Domain.DTO.Admin;
 using UWM.Domain.DTO.Authentication;
 using UWM.Domain.JWT;
 using UWM.Domain.Options;
@@ -39,7 +41,15 @@ namespace UWM.BLL.Services
                     if (passwordCheck.Succeeded)
                     {
                         var token = await GetToken(user, _options);
-                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token) };
+
+                        UserInfo userInfo = new UserInfo
+                        {
+                            Id = user.Id,
+                            UserName = user.UserName,
+                            UserRole = _userManager.GetRolesAsync(user).Result.ToList()
+                        };
+
+                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token), UserInfo = userInfo };
                     }
                     return null;
                 }
