@@ -9,7 +9,7 @@
 <h1>INFORMATION</h1>
      <div>
         <p> When you run this app it created 2 roles and 1 admin user. </p>
-        <p> To loggin. Recomended create new admin user, usin this profile and delete this profile 
+        <p> To login => Recomended create new admin user, usin this profile and delete this profile: 
         <p> Email = "admin@gmail.com 
         <p> Password = "admin"
       </div>
