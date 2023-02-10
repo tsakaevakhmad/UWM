@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UWM.BLL.Interfaces;
@@ -21,7 +22,6 @@ namespace UWM.Controllers
             _configuration = configuration;
         }
 
-        // POST api/Authorization/Login
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
@@ -30,42 +30,44 @@ namespace UWM.Controllers
                 var result = await _authorizationServices.Login(login);
                 
                 if(result == null)
-                    return Unauthorized(new { Error = "Password or Mail wrong" });
+                    return NotFound(new { Error = "Password or Mail wrong" });
 
                 if (!string.IsNullOrEmpty(result.Token))
                 {
                     return Ok(new { Token = result.Token, UserInfo = result.UserInfo });
                 }
-                else if (!string.IsNullOrEmpty(result.Code))
+                else if(!string.IsNullOrEmpty(result.Code))
                 {
                     SendMailToConfirm(login.Email, result.Code);
                     return Content("Ваша регистрация не завршена. Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
-                return Unauthorized();
+                return BadRequest();
             }
             return BadRequest();
         }
 
-        // POST api/Authorization/Logout
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            var authenticationManager = HttpContext;
+            await authenticationManager.SignOutAsync();
             return Ok();
         }
 
-        // POST api/Authorization/ForgotPassword
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(UserEmail email)
         {
             var code = await _authorizationServices.ForgotPassword(email);
-            var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/resetpassword?code={code}";
+            if(code == null)
+                return BadRequest("Пользователя не существует или же его почта не подтверждена");
+
+            var link = $"{ _configuration.GetSection("Cors").Value.Split(",")[0] }/authorization/resetpassword?code={code}";
             await _authorizationServices.SendEmailAsync(email.Email, 
                 "Подтвержение аккаунта", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
+            
             return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
         }
 
-        // POST api/Authorization/ResetPassword
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetUserPassword model)
         {
@@ -74,7 +76,6 @@ namespace UWM.Controllers
             return Ok(await _authorizationServices.ResetPassword(model));
         }
 
-        // POST api/Authorization/Register
         [HttpPost("Register")]
         public async Task<IActionResult> Registeration(Registration registration)
         {

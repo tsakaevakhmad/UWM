@@ -1,6 +1,5 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
@@ -8,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UWM.BLL.Interfaces;
-using UWM.Domain.DTO.Admin;
 using UWM.Domain.DTO.Authentication;
 using UWM.Domain.JWT;
 using UWM.Domain.Options;
@@ -40,7 +38,7 @@ namespace UWM.BLL.Services
                     var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
                     if (passwordCheck.Succeeded)
                     {
-                        var token = await GetToken(user, _options);
+                        var token = await GetToken(user);
 
                         UserInfo userInfo = new UserInfo
                         {
@@ -48,7 +46,6 @@ namespace UWM.BLL.Services
                             UserName = user.UserName,
                             UserRole = _userManager.GetRolesAsync(user).Result.ToList()
                         };
-
                         return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token), UserInfo = userInfo };
                     }
                     return null;
@@ -80,7 +77,7 @@ namespace UWM.BLL.Services
             return null;
         }
 
-        private async Task<JwtSecurityToken> GetToken(IdentityUser user, JWTSettings _options)
+        private async Task<JwtSecurityToken> GetToken(IdentityUser user)
         {
             var x = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>()
@@ -107,7 +104,6 @@ namespace UWM.BLL.Services
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
-
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress("Администрация сайта", _mailOptions.Mail));
@@ -129,12 +125,9 @@ namespace UWM.BLL.Services
 
         public async Task<string> ForgotPassword(UserEmail model)
         {
-
             var user = await _userManager.FindByEmailAsync(model.Email);    
-            if (user == null || !user.EmailConfirmed)
-            {
+            if (user == null || user.EmailConfirmed != true)
                 return null;
-            }
 
             string code = await _userManager.GeneratePasswordResetTokenAsync(user);
             return code;
@@ -144,9 +137,7 @@ namespace UWM.BLL.Services
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-            {
                 return false;
-            }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             return result.Succeeded;
@@ -155,15 +146,11 @@ namespace UWM.BLL.Services
         public async Task<bool> ConfirmEmail(string userEmail, string code)
         {
             if (userEmail == null || code == null)
-            {
                 return false;
-            }
 
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
-            {
                 return false;
-            }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
