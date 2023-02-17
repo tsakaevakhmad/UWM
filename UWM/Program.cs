@@ -97,10 +97,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var cors = builder.Configuration.GetSection("Cors").Value.Split(",");
-
+string cors = builder.Configuration.GetSection("Cors").Value;
 if (cors != null)
+{
+    cors.Split(",");
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins(cors));
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

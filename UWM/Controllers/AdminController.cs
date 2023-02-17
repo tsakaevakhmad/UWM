@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Admin;
 
@@ -45,6 +47,7 @@ namespace UWM.Controllers
         [HttpGet("User/{id}")]
         public async Task<ActionResult<UsersDTO>> GetUser(string id)
         {
+            //var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;  How to get user from Claims
             var result = await _adminServices.GetUser(id);
             return result;
         }   
