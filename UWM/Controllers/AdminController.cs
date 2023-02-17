@@ -47,7 +47,7 @@ namespace UWM.Controllers
         [HttpGet("User/{id}")]
         public async Task<ActionResult<UsersDTO>> GetUser(string id)
         {
-            //var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;  How to get user from Claims
+            //var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;  How to get user from Claims new
             var result = await _adminServices.GetUser(id);
             return result;
         }   
