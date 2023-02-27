@@ -38,7 +38,7 @@ namespace UWM.DAL.Data
                 UserName = "Admin",
                 Email = "admin@gmail.com",
                 NormalizedEmail = "ADMIN@GMAIL.COM",
-                PasswordHash = passwordHasher.HashPassword(null, "admin"),
+                PasswordHash = passwordHasher.HashPassword(null, "password"),
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 PhoneNumber = "1234567890"
