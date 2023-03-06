@@ -35,6 +35,9 @@ namespace UWM.Controllers
         [HttpPut("ChangeEmail")]
         public async Task<bool> ChangeEmail(ChangeMail changeMail)
         {
+            if (!ModelState.IsValid)
+                return false;
+
             var _userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return await _userServices.ChangeMailAsync(_userEmail, changeMail.NewEmail, changeMail.Token);
         }
@@ -42,6 +45,9 @@ namespace UWM.Controllers
         [HttpPost("SendChangeToken")]
         public async Task<bool> SendChangeToken(NewMail newMail)
         {
+            if(!ModelState.IsValid)
+                return false;
+
             var _userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var token = await _userServices.MailChangeTokenAsync(_userEmail, newMail.NewEmail);
 
@@ -53,6 +59,9 @@ namespace UWM.Controllers
         [HttpPut("ChangePassword")]
         public async Task<bool> ChangePassword(ChangePassword password)
         {
+            if(!ModelState.IsValid)
+                return false;
+
             var _userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return await _userServices.ChangePasswordAsync(_userEmail, password);
         }
