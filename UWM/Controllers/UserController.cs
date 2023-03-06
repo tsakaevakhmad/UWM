@@ -51,7 +51,7 @@ namespace UWM.Controllers
             var _userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var token = await _userServices.MailChangeTokenAsync(_userEmail, newMail.NewEmail);
 
-            var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/resetpassword?token={token}&email={newMail}";
+            var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/resetpassword?token={token}&email={newMail.NewEmail}";
             await _authorization.SendEmailAsync(newMail.NewEmail, "Смена почты", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
             return true;
         }
