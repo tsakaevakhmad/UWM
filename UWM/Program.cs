@@ -76,6 +76,7 @@ builder.Services.AddTransient<ISubCategoryServices, SubCategoryServices>();
 builder.Services.AddTransient<IWarehouseServices, WarehouseServices>();
 builder.Services.AddTransient<IAuthorizationServices, AuthorizationServices>();
 builder.Services.AddTransient<IAdminServices, AdminServices>();
+builder.Services.AddTransient<IUserServices, UserServices>();
 
 //Repositories
 builder.Services.AddScoped<IItemRepository, ItemRepository>();

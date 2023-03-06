@@ -47,14 +47,6 @@ namespace UWM.Controllers
             return BadRequest();
         }
 
-        [Authorize]
-        [HttpGet("UserInfo")]
-        public async Task<UserInfo> GetUsersInfo() 
-        {
-            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            return await _authorizationServices.GetUserInfoAsync(user);
-        }
-
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
