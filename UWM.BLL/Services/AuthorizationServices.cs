@@ -52,13 +52,6 @@ namespace UWM.BLL.Services
             return null;
         }
 
-        public async Task<UserInfo> GetUserInfoAsync(string userId)
-        {
-            var user = await _userManager.FindByEmailAsync(userId);
-            var userRoles = await _userManager.GetRolesAsync(user);
-            return new UserInfo { Id = user.Id, UserName = user.UserName, UserRoles = (List<string>)userRoles };
-        }
-
         public async Task<RegistrationSuccsess> Registration(Registration registration)
         {
             var existingUser = await _userManager.FindByEmailAsync(registration.Email);
