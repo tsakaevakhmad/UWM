@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using UWM.BLL.Interfaces;
 using UWM.Domain.DTO.Authentication;
 
@@ -28,15 +29,15 @@ namespace UWM.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _authorizationServices.Login(login);
-                
-                if(result == null)
+
+                if (result == null)
                     return NotFound(new { Error = "Password or Mail wrong" });
 
                 if (!string.IsNullOrEmpty(result.Token))
                 {
-                    return Ok(new { Token = result.Token, Roles = result.Roles });
+                    return Ok(new { Token = result.Token});
                 }
-                else if(!string.IsNullOrEmpty(result.Code))
+                else if (!string.IsNullOrEmpty(result.Code))
                 {
                     SendMailToConfirm(login.Email, result.Code);
                     return Content("Ваша регистрация не завршена. Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
@@ -44,6 +45,14 @@ namespace UWM.Controllers
                 return BadRequest();
             }
             return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("UserInfo")]
+        public async Task<UserInfo> GetUsersInfo() 
+        {
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            return await _authorizationServices.GetUserInfoAsync(user);
         }
 
         [HttpPost("Logout")]

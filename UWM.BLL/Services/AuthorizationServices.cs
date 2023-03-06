@@ -39,8 +39,7 @@ namespace UWM.BLL.Services
                     if (passwordCheck.Succeeded)
                     {
                         var token = await GetToken(user);
-                        var roles = await _userManager.GetRolesAsync(user);
-                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token), Roles = (List<string>)roles };
+                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token)};
                     }
                     return null;
                 }
@@ -51,6 +50,13 @@ namespace UWM.BLL.Services
                 }
             }
             return null;
+        }
+
+        public async Task<UserInfo> GetUserInfoAsync(string userId)
+        {
+            var user = await _userManager.FindByEmailAsync(userId);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return new UserInfo { Id = user.Id, UserName = user.UserName, UserRoles = (List<string>)userRoles };
         }
 
         public async Task<RegistrationSuccsess> Registration(Registration registration)
