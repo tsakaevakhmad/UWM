@@ -39,7 +39,8 @@ namespace UWM.BLL.Services
                     if (passwordCheck.Succeeded)
                     {
                         var token = await GetToken(user);
-                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token) };
+                        var roles = await _userManager.GetRolesAsync(user);
+                        return new TokenOrMailConfirme { Token = new JwtSecurityTokenHandler().WriteToken(token), Roles = (List<string>)roles };
                     }
                     return null;
                 }

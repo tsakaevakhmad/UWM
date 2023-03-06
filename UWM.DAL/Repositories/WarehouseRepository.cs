@@ -13,6 +13,7 @@ namespace UWM.DAL.Repositories
         {
             _db = db;
         }
+
         public async Task<int> Create(Warehouse warehouse)
         {
             warehouse.Address = warehouse.Address;
@@ -29,8 +30,6 @@ namespace UWM.DAL.Repositories
                 throw new Exception();
             }
         }
-
-        
 
         public async Task Delete(int id)
         {
