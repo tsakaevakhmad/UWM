@@ -77,6 +77,7 @@ builder.Services.AddTransient<IWarehouseServices, WarehouseServices>();
 builder.Services.AddTransient<IAuthorizationServices, AuthorizationServices>();
 builder.Services.AddTransient<IAdminServices, AdminServices>();
 builder.Services.AddTransient<IUserServices, UserServices>();
+builder.Services.AddTransient<IMailSenderServices, MailSenderServices>();
 
 //Repositories
 builder.Services.AddScoped<IItemRepository, ItemRepository>();

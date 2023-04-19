@@ -15,12 +15,15 @@ namespace UWM.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IAuthorizationServices _authorizationServices;
         private readonly IConfiguration _configuration;
+        private readonly IMailSenderServices _mailSender;
 
-        public AuthorizationController(SignInManager<IdentityUser> signInManager, IAuthorizationServices authorizationServices, IConfiguration configuration)
+        public AuthorizationController(SignInManager<IdentityUser> signInManager, 
+            IAuthorizationServices authorizationServices, IConfiguration configuration, IMailSenderServices mailSender)
         {
             _signInManager = signInManager;
             _authorizationServices = authorizationServices;
             _configuration = configuration;
+            _mailSender = mailSender;
         }
 
         [HttpPost("Login")]
@@ -63,8 +66,8 @@ namespace UWM.Controllers
                 return BadRequest("Пользователя не существует или же его почта не подтверждена");
 
             var link = $"{ _configuration.GetSection("Cors").Value.Split(",")[0] }/authorization/resetpassword?code={code}";
-            await _authorizationServices.SendEmailAsync(email.Email, 
-                "Подтвержение аккаунта", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
+            await _mailSender.SendEmailAsync(email.Email, 
+                "Сброс пароля", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
             
             return Ok("Вам на почту был выслан КЛЮЧ для сброса пароля");
         }
@@ -101,7 +104,7 @@ namespace UWM.Controllers
             var result = await _authorizationServices.ConfirmEmail(confirm.Email, confirm.Code);
             if (result == true)
             {
-                await _authorizationServices.SendEmailAsync(confirm.Email, "Ваша аккаунт подтвержден", "Поздравляем вы успешно подтвердили свою учетную запись");
+                await _mailSender.SendEmailAsync(confirm.Email, "Ваша аккаунт подтвержден", "Поздравляем вы успешно подтвердили свою учетную запись");
                 return true;
             }
             return false;
@@ -111,7 +114,7 @@ namespace UWM.Controllers
         {
             var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/confirmaccaunt?email={email}&code={code}";
 
-            await _authorizationServices.SendEmailAsync(email, "Подтверждение аккаунта",
+            await _mailSender.SendEmailAsync(email, "Подтверждение аккаунта",
                 $"Подтвердите сброс пароля, перейдя по ссылке: <a href='{link}'>Подтвердить</a>");
         }
     }

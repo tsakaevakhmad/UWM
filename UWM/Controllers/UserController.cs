@@ -15,14 +15,15 @@ namespace UWM.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
-        private readonly IAuthorizationServices _authorization;
         private readonly IConfiguration _configuration;
+        private readonly IMailSenderServices _mailSender;
 
-        public UserController(IUserServices userServices, IAuthorizationServices authorization, IConfiguration configuration) 
+        public UserController(IUserServices userServices, IMailSenderServices mailSender,
+            IConfiguration configuration) 
         {
             _userServices = userServices;
-            _authorization = authorization;
             _configuration = configuration;
+            _mailSender = mailSender;
         }
 
         [HttpGet("UserInfo")]
@@ -52,7 +53,7 @@ namespace UWM.Controllers
             var token = await _userServices.MailChangeTokenAsync(_userEmail, newMail.NewEmail);
 
             var link = $"{_configuration.GetSection("Cors").Value.Split(",")[0]}/authorization/resetpassword?token={token}&email={newMail.NewEmail}";
-            await _authorization.SendEmailAsync(newMail.NewEmail, "Смена почты", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
+            await _mailSender.SendEmailAsync(newMail.NewEmail, "Смена почты", $"<p> Вам нужно перейти по <a href='{link}'>ссылке</a>");
             return true;
         }
 
